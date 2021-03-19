@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,6 +36,7 @@ public class EmployeeController {
 		return new ModelAndView("Home");
 	}
 	
+	//==================================================================================================================
 	@GetMapping("/employees")
 	public ModelAndView getAllEmployees(){
 		List<Employee> employees = employeeService.getAllEmployees();
@@ -43,12 +45,20 @@ public class EmployeeController {
 		return model;
 	}
 	
-	@GetMapping("/employees/{id}")
-	public Employee getEmployeeById(@PathVariable(value = "id") Long employeeId) {
-		Employee employee = employeeService.getEmployeeById(employeeId);
-		return employee;
+	@GetMapping("/employees/search")
+	public ModelAndView searchEmployeesForm() {
+		return new ModelAndView("Search");
 	}
 	
+	@PostMapping("/employees/search")
+	public ModelAndView searchEmployees(@RequestParam String firstName) {
+		List<Employee> employees = employeeService.getEmployeesByFirstName(firstName);
+		ModelAndView model = new ModelAndView("Employees");
+		model.addObject("Employees", employees);
+		return model;
+	}
+	
+	//==================================================================================================================
 	@GetMapping("/employees/add")
 	public ModelAndView addEmployeeForm() {
 		return new ModelAndView("Add", "employee", new Employee());
@@ -58,9 +68,9 @@ public class EmployeeController {
 	public ModelAndView addEmployee(@ModelAttribute("employee") Employee employee) {
 		kafkaTemplate.send(TOPIC, employee);
 		return new ModelAndView("redirect:/project/employees");
-
 	}
 	
+	//==================================================================================================================
 	@GetMapping("/employees/{id}/update")
 	public ModelAndView updateEmployeeForm(@PathVariable(value = "id") Long employeeId) {
 		Employee employee = employeeService.getEmployeeById(employeeId);
@@ -71,7 +81,15 @@ public class EmployeeController {
 	
 	@PostMapping("/employees/{id}/update")
 	public ModelAndView updateEmployee(@ModelAttribute("employee") Employee employee) {
-		System.out.println(employee.toString());
+		kafkaTemplate.send(TOPIC, employee);
+		return new ModelAndView("redirect:/project/employees");
+	}
+	
+	//====================================================================================================================
+	@GetMapping("/employees/{id}/delete")
+	public ModelAndView deleteEmployee(@PathVariable(value = "id") Long employeeId) {
+		Employee employee = employeeService.getEmployeeById(employeeId);
+		employee.setStatus("inactive");
 		kafkaTemplate.send(TOPIC, employee);
 		return new ModelAndView("redirect:/project/employees");
 	}
@@ -81,4 +99,6 @@ public class EmployeeController {
 	//Post employee
 	//Update employee
 	//Delete Employee
+	//, @RequestParam String lastName, 
+	//@RequestParam String city, @RequestParam String jobTitle
 }

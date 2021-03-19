@@ -24,6 +24,12 @@ public class EmployeeService {
 		return employeeRepository.findById(id).orElse(null);
 	}
 	
+	public List<Employee> getEmployeesByFirstName(String firstName) {
+		List<Employee> employees = new ArrayList<Employee>();
+		employeeRepository.findByFirstName(firstName).forEach(employees::add);
+		return employees;
+	}
+	
 	public void addEmployee(Employee employee) {
 		employeeRepository.save(employee);
 		return;

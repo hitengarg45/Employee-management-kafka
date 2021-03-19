@@ -32,18 +32,25 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="i" begin="0" end="${Employees.size() - 1}">
-					<tr>
-						<td>${Employees.get(i).firstName}</td>
-						<td>${Employees.get(i).lastName}</td>
-						<td>${Employees.get(i).jobTitle}</td>
-						<td>${Employees.get(i).email}</td>
-						<td>${Employees.get(i).dateOfBirth}</td>
-						<td>${Employees.get(i).city}</td>
-						<td>${Employees.get(i).status}</td>
-						<td><a href="http://localhost:8081/project/employees/${Employees.get(i).id}/update"><button type="button" class="btn btn-primary">Update</button></a></td>
-						<td><button type="button" class="btn btn-danger">Delete</button></td>
-					</tr>
+				<c:forEach var="employee" items="${Employees}">
+					<c:if test="${employee.status == 'active'}">
+						<tr>
+							<td>${employee.firstName}</td>
+							<td>${employee.lastName}</td>
+							<td>${employee.jobTitle}</td>
+							<td>${employee.email}</td>
+							<td>${employee.dateOfBirth}</td>
+							<td>${employee.city}</td>
+							<td>${employee.status}</td>
+							<td><a
+								href="http://localhost:8081/project/employees/${employee.id}/update"><button
+										type="button" class="btn btn-primary">Update</button></a></td>
+							<td><a
+								href="http://localhost:8081/project/employees/${employee.id}/delete">
+									<button type="button" class="btn btn-danger">Delete</button>
+							</a></td>
+						</tr>
+					</c:if>
 				</c:forEach>
 			</tbody>
 		</table>

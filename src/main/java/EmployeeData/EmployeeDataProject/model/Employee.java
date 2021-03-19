@@ -34,7 +34,7 @@ public class Employee {
 	private String city;
 	
 	@Column(name = "status")
-	private String status;
+	private String status = "active";
 	
 	public Employee() {
 		super();

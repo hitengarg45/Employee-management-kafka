@@ -50,12 +50,6 @@
 						class="form-control" id="city" value="${Employee.city}" path="city"/>
 				</div>
 			</div>
-			<div class="form-row">
-				<div class="form-group col-md-6">
-					<label for="status">Status</label> <form:input type="text"
-						class="form-control" id="status" value="${Employee.status}" path="status"/>
-				</div>
-			</div>
 			<button type="submit" class="btn btn-primary">Update Employee</button>
 		</form:form>
 	</div>
