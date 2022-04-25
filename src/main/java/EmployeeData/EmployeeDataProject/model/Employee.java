@@ -33,21 +33,26 @@ public class Employee {
 	@Column(name = "city")
 	private String city;
 	
+	@Column(name = "state")
+	private String state;
+	
 	@Column(name = "status")
 	private String status = "active";
 	
 	public Employee() {
 		super();
 	}
-	
-	public Employee(String firstName, String lastName, String jobTitle, String email, String dateOfBirth,
-			String status) {
+
+	public Employee(String firstName, String lastName, String jobTitle, String email, String dateOfBirth, String city,
+			String state, String status) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.jobTitle = jobTitle;
 		this.email = email;
 		this.dateOfBirth = dateOfBirth;
+		this.city = city;
+		this.state = state;
 		this.status = status;
 	}
 
@@ -98,13 +103,21 @@ public class Employee {
 	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	
+
 	public String getCity() {
 		return city;
 	}
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public String getStatus() {
@@ -118,7 +131,7 @@ public class Employee {
 	@Override
 	public String toString() {
 		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", jobTitle=" + jobTitle
-				+ ", email=" + email + ", dateOfBirth=" + dateOfBirth + ", city=" + city + ", status=" + status + "]";
+				+ ", email=" + email + ", dateOfBirth=" + dateOfBirth + ", city=" + city + ", state=" + state
+				+ ", status=" + status + "]";
 	}
-	
 }

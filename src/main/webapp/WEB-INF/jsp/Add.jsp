@@ -15,11 +15,18 @@
 	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
 	crossorigin="anonymous">
 
+<script type="text/javascript">
+<%@include file="/WEB-INF/js/jquery.js"%>
+</script>
+<script type="text/javascript">
+<%@include file="/WEB-INF/js/state.js"%>
+</script>
+
 </head>
 <body>
 	<jsp:include page="Navbar.jsp" />
 	<div class="container">
-		<form:form action="http://localhost:8081/project/employees/add" method="post" modelAttribute="employee">
+		<form:form id="add-form" action="http://localhost:8081/employees/add" method="post" modelAttribute="employee">
 			<div class="form-row">
 				<div class="form-group col-md-6">
 					<label for="firstName">First Name</label> <form:input type="text"
@@ -47,8 +54,11 @@
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<label for="city">City</label> <form:input type="text"
-						class="form-control" id="city" path="city" />
+					<label for="state">State</label> 
+					<form:select class="form-control" path="state" id="state" form="add-form" onchange='selct_district(this.value)'></form:select>
+				</div>
+				<div class="form-group col-md-6">
+					<label for="city">City</label> <form:select class="form-control" path="city" id="city" form="add-form"></form:select>
 				</div>
 			</div>
 			<button type="submit" class="btn btn-primary">Add Employee</button>

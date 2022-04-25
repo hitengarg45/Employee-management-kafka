@@ -11,5 +11,5 @@ import EmployeeData.EmployeeDataProject.model.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 	public Optional<Employee> findById(Long id);
-	public List<Employee> findByFirstName(String firstName);
+	public List<Employee> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndCityContainingIgnoreCaseAndStateContainingIgnoreCaseAndJobTitleContainingIgnoreCase(String firstName, String lastName, String city, String state, String jobTitle);
 }

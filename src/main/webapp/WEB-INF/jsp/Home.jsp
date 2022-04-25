@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,16 +14,17 @@
 	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
 	crossorigin="anonymous">
 
+<style type="text/css">
+<%@include file="/WEB-INF/css/home.css"%>
+</style>
 </head>
+
 <body>
 	<jsp:include page="Navbar.jsp" />
-	This is the home page.
-	<p>
-		<a href="http://localhost:8081/project/employees">Get all
-			Employees</a>
-	</p>
-	<p>
-		<a href="http://localhost:8081/project/employees/add">Add Employee</a>
-	</p>
+	<div class="emp-button">
+		<a href="http://localhost:8081/employees"><button
+				class="btn btn-success">Get all Employees</button></a>
+		</p>
+	</div>
 </body>
 </html>

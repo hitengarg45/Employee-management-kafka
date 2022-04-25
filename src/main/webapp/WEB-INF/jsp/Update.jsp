@@ -15,11 +15,18 @@
 	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
 	crossorigin="anonymous">
 
+<script type="text/javascript">
+<%@include file="/WEB-INF/js/jquery.js"%>
+</script>
+<script type="text/javascript">
+<%@include file="/WEB-INF/js/state.js"%>
+</script>
+
 </head>
 <body>
 	<jsp:include page="Navbar.jsp" />
 	<div class="container">
-		<form:form action="http://localhost:8081/project/employees/${Employee.id}/update" method="post" modelAttribute="employee">
+		<form:form id="update-form" action="http://localhost:8081/employees/${Employee.id}/update" method="post" modelAttribute="employee">
 			<div class="form-row">
 				<div class="form-group col-md-6">
 					<label for="firstName">First Name</label> <form:input type="text"
@@ -46,8 +53,13 @@
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<label for="city">City</label> <form:input type="text"
-						class="form-control" id="city" value="${Employee.city}" path="city"/>
+					<label for="state">State</label> 
+					<form:select class="form-control" path="state" id="state" form="update-form" onchange='selct_district(this.value)'>
+					</form:select>
+				</div>
+				<div class="form-group col-md-6">
+					<label for="city">City</label> <form:select class="form-control" path="city" id="city" form="update-form">
+					</form:select>
 				</div>
 			</div>
 			<button type="submit" class="btn btn-primary">Update Employee</button>

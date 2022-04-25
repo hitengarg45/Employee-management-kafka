@@ -1,0 +1,19 @@
+body {
+	background-image:
+		url("https://www.pinclipart.com/picdir/big/354-3541550_are-your-employees-really-present-mentorship-clipart.png");
+	background-repeat: no-repeat;
+	background-position: 400px 100px;
+	background-size: 1000px;
+}
+
+div.emp-button {
+position:relative;
+}
+
+.btn {
+	position: absolute;
+	top: 400px;
+	left:825px;
+	height:60px;
+	width:200px;
+}

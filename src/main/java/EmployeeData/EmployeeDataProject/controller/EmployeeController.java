@@ -2,9 +2,14 @@ package EmployeeData.EmployeeDataProject.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,7 +25,6 @@ import EmployeeData.EmployeeDataProject.service.EmployeeService;
 import EmployeeData.EmployeeDataProject.model.Employee;
 
 @Controller
-@RequestMapping("/project")
 public class EmployeeController {
 	
 	@Autowired
@@ -51,8 +55,11 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/employees/search")
-	public ModelAndView searchEmployees(@RequestParam String firstName) {
-		List<Employee> employees = employeeService.getEmployeesByFirstName(firstName);
+	public ModelAndView searchEmployees(@RequestParam String firstName, @RequestParam String lastName, 
+			@RequestParam(name="city", required=false) String city, @RequestParam(name="state", required=false) String state, @RequestParam String jobTitle) {
+		if(state == null) state = "";
+		if(city == null) city = "";
+		List<Employee> employees = employeeService.searchEmployees(firstName, lastName, city, state, jobTitle);
 		ModelAndView model = new ModelAndView("Employees");
 		model.addObject("Employees", employees);
 		return model;
@@ -66,8 +73,8 @@ public class EmployeeController {
 	
 	@PostMapping("/employees/add")
 	public ModelAndView addEmployee(@ModelAttribute("employee") Employee employee) {
-		kafkaTemplate.send(TOPIC, employee);
-		return new ModelAndView("redirect:/project/employees");
+		ListenableFuture<SendResult<String, Employee>> future = kafkaTemplate.send(TOPIC, employee);
+		return new ModelAndView("redirect:/employees");
 	}
 	
 	//==================================================================================================================
@@ -82,7 +89,7 @@ public class EmployeeController {
 	@PostMapping("/employees/{id}/update")
 	public ModelAndView updateEmployee(@ModelAttribute("employee") Employee employee) {
 		kafkaTemplate.send(TOPIC, employee);
-		return new ModelAndView("redirect:/project/employees");
+		return new ModelAndView("redirect:/employees");
 	}
 	
 	//====================================================================================================================
@@ -91,7 +98,7 @@ public class EmployeeController {
 		Employee employee = employeeService.getEmployeeById(employeeId);
 		employee.setStatus("inactive");
 		kafkaTemplate.send(TOPIC, employee);
-		return new ModelAndView("redirect:/project/employees");
+		return new ModelAndView("redirect:/employees");
 	}
 	
 	//Get all employees
@@ -99,6 +106,4 @@ public class EmployeeController {
 	//Post employee
 	//Update employee
 	//Delete Employee
-	//, @RequestParam String lastName, 
-	//@RequestParam String city, @RequestParam String jobTitle
 }
